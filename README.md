@@ -1,0 +1,8 @@
+- Pull sandbox docker image or log onto sandbox
+- Generate and persist dependency graph via `pipdeptree -j > dependencies.json`
+- Load graph data onto [3d-force-graph](https://github.com/vasturiano/3d-force-graph) using js object version of the JSON or via fetch API when the file is hosted on https.
+- Display app in web page
+- Run sandbox container for Jhub based development
+  - Dynamically install packages in the hub
+  - Persist graph regularly
+  - Push to viz and update page

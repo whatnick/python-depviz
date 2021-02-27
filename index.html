@@ -1,0 +1,76 @@
+<head>
+  <style>
+    body {
+      margin: 0;
+    }
+  </style>
+
+  <script src="https://unpkg.com//3d-force-graph"></script>
+  <script src="./dependencies.js"></script>
+  <!--<script src="../../dist/3d-force-graph.js"></script>-->
+</head>
+
+<body>
+  <div id="3d-graph"></div>
+
+  <script>
+    // Random tree
+    const N = 10;
+    const nodes_orig = [...Array(N).keys()].map((i) => ({ id: i}));
+    const links_orig = [...Array(N).keys()]
+        .filter((id) => id)
+        .map((id) => ({
+          source: id,
+          target: Math.round(Math.random() * (id - 1)),
+        }));
+    const gData = {
+      nodes: nodes_orig,
+      links: links_orig,
+    };
+
+    console.log(nodes_orig);
+    console.log(links_orig);
+
+    const nodes = [];
+    const links = [];
+
+    pyData.map((i) => {
+      var package = i['package'];
+      var dependencies = i['dependencies'];
+      var id= package['package_name'].toLowerCase();
+      nodes.push({
+        id
+      });
+
+      if (dependencies) {
+        dependencies.map((j) => {
+          var package_name_dep = j['package_name'].toLowerCase();
+          var installed_version = j['installed_version'];
+          links.push({ source: id, target: `${package_name_dep}` });
+        });
+      }
+    });
+
+    console.log(nodes)
+    console.log(links)
+
+    const pyDataGraph = {
+        nodes : nodes,
+        links : links,
+    }
+
+    // Python Dependency tree
+    // TODO: Enable direct JSON fetch when hosted over https
+    /*
+    fetch("dependencies.json")
+      .then((response) => response.json())
+      .then((json) => console.log(json));
+    */
+
+    const Graph = ForceGraph3D()(document.getElementById("3d-graph"))
+      .graphData(pyDataGraph)
+      .linkDirectionalArrowLength(3.5)
+      .linkDirectionalArrowRelPos(1)
+      .linkCurvature(0.25);
+  </script>
+</body>
