@@ -2,7 +2,7 @@
 
 This project visualizes the dependency tree for Python environments. This is a hobby project born out of the frustration with
 managing complex Python environments reliably and continuously adding packages to them. It is meant to help isolate unrelated
-packages or identify critical packages upgrading which will have very wide ranging impact. It also does to adress issues with
+packages or identify critical packages upgrading which will have very wide ranging impact. It also does not address issues with
 ABI's(usually pronounced Abyss), that will need a new tool which tracks python dependencies back to C/C++/Fortran and other
 system language land.
 
