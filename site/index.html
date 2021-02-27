@@ -14,23 +14,6 @@
   <div id="3d-graph"></div>
 
   <script>
-    // Random tree
-    const N = 10;
-    const nodes_orig = [...Array(N).keys()].map((i) => ({ id: i}));
-    const links_orig = [...Array(N).keys()]
-        .filter((id) => id)
-        .map((id) => ({
-          source: id,
-          target: Math.round(Math.random() * (id - 1)),
-        }));
-    const gData = {
-      nodes: nodes_orig,
-      links: links_orig,
-    };
-
-    console.log(nodes_orig);
-    console.log(links_orig);
-
     const nodes = [];
     const links = [];
 
