@@ -8,6 +8,8 @@ system language land.
 
 See a sample [here](https://whatnick.github.io/python-depviz/index.html).
 
+A much simpler bare osgeo4w python environment for comparison is [here](https://whatnick.github.io/python-depviz/osgeo4w.html).
+
 Geoscience Australia [DEA Sandbox](https://app.sandbox.dea.ga.gov.au/) is included as a sample environment. The following steps were performed to build the sample.
 
 - Pull [sandbox docker image](https://hub.docker.com/r/geoscienceaustralia/sandbox/tags?page=1&ordering=last_updated) or log onto sandbox
