@@ -1,0 +1,78 @@
+<head>
+  <style>
+    body {
+      margin: 0;
+    }
+  </style>
+
+  <script src="https://unpkg.com/3d-force-graph"></script>
+  <script src="./deps_easi.js"></script>
+  <!--<script src="../../dist/3d-force-graph.js"></script>-->
+</head>
+
+<body>
+  <div id="3d-graph"></div>
+
+  <script>
+    const nodes = [];
+    const links = [];
+
+    pyData.map((i) => {
+      var package = i['package'];
+      var dependencies = i['dependencies'];
+      var id= package['package_name'].toLowerCase();
+      var installed_version = package['installed_version'];
+      var group = id.split("-")[0];
+      nodes.push({
+        id,
+        group : group,
+        version : installed_version,
+      });
+
+      if (dependencies) {
+        dependencies.map((j) => {
+          var package_name_dep = j['package_name'].toLowerCase();
+          var installed_version = j['installed_version'];
+          links.push({ source: id, target: `${package_name_dep}` });
+        });
+      }
+    });
+
+    console.log(nodes)
+    console.log(links)
+
+    const pyDataGraph = {
+        nodes : nodes,
+        links : links,
+    }
+
+    // Python Dependency tree
+    // TODO: Enable direct JSON fetch when hosted over https
+    /*
+    fetch("dependencies.json")
+      .then((response) => response.json())
+      .then((json) => console.log(json));
+    */
+    const elem = document.getElementById('3d-graph');
+
+    const Graph = ForceGraph3D()(elem)
+      .graphData(pyDataGraph)
+      .linkDirectionalArrowLength(3.5)
+      .linkDirectionalArrowRelPos(1)
+      .nodeAutoColorBy('group')
+      .nodeLabel('id')
+      .onNodeHover(node => elem.style.cursor = node ? 'pointer' : null)
+      .linkCurvature(0.25)
+      .onNodeClick(node => {
+          // Aim at node from outside it
+          const distance = 40;
+          const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
+
+          Graph.cameraPosition(
+            { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }, // new position
+            node, // lookAt ({ x, y, z })
+            3000  // ms transition duration
+          );
+        });
+  </script>
+</body>
